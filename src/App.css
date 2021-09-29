@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: beige;
 }
 
 .App-logo {
@@ -35,4 +36,36 @@
   to {
     transform: rotate(360deg);
   }
+}
+.navbar{
+  display: flex;
+  justify-content: space-evenly;
+  padding:10px;
+  background-color:aliceblue
+}
+.navbar *{
+  text-decoration: none;
+}
+.navbar a{
+  padding:1% 10%;
+  background-color: aqua;
+}
+
+.robots{
+  border-radius: 10px;
+    background: cadetblue;
+    border: 2px solid cadetblue;
+    margin:5px
+}
+.robots .text{
+  font-size: 23px;
+  padding:10px
+
+}
+.robots .email{
+  font-size: 23px;
+  padding:10px
+}
+th,td{
+  padding:5px
 }
