@@ -1,67 +1,58 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import './index.css'
 
 export const Stopwatch = () => {
-  const [sec,setSec]=useState(0)
-  const [timerid,setTimerid]=useState();
-  var timer;
-  // console.log(sec);
-  const stopwatch=()=>{
-    let newSec=Number(sec);
-    newSec+=1;
-    console.log("Counter increaseda",newSec)
-    // console.log("After",hr,min,sec)
-    // console.log("Changed",{hr:hr,min:min,sec:sec})
+  const [time,setTime]=useState(0);
+  const [isActive,setIsActive]=useState(false);
+  const [isPause,setIsPause]=useState(false)
 
-    // setTime({hr:hr,min:min,sec:sec})
 
-    setSec(Number(newSec))
-  }
+  useEffect(() => {
+    let timer=null;
+    if(isActive && !isPause)
+    {
+      timer = setInterval(() =>{
+      setTime(prev => prev+1)
+    },10)
+    }
+    else{
+      clearInterval(timer)
+    }
+    
+    return (() => {
+      clearInterval(timer)
+    })
+
+  },[isPause,isActive])
   
-  const start=()=>{
-    let startButton=document.getElementById("start")
-    if(startButton.innerText==="Start")
-    {
-     
-      startButton.innerText="Stop"
-      console.log("Start Timer")
-      timer=setInterval(stopwatch,1000)
-      console.log("Timer id",timer)
-      setTimerid(timer)
-    }
-    else
-    {
-      
-      startButton.innerText="Start"
-      console.log("Stop Timer")
-      console.log("Timer id",timerid)
-      clearInterval(timerid)
 
-    }
-    
+
+  const start = () =>{
+    setIsActive(true)
   }
-  const pause=()=>{
-    let pauseButton=document.getElementById("pause")
-    if(pauseButton.innerText==="Pause")
-    {
-      pauseButton.innerText="Resume"
-      clearInterval(timerid)
-    }
-    else
-    {
-      pauseButton.innerText="Pause"
-      timer=setInterval(stopwatch,1000)
-      setTimerid(timer)
-    }
-    
-    
+  const reset = () =>{
+    setIsActive(false)
+    setIsPause(false)
+    setTime(0);
   }
+  const pauseResume = () =>{
+  setIsPause(prev => !prev)
+  }
+  console.log(isActive,isPause)
   return (
-    <div className="Stopwatch">
-     <h1>Time</h1>
-     <div>{sec}</div>
-     <div>
-       <button id="start" onClick={start}>Start</button>
-       <button id="pause" onClick={pause}>Pause</button>
+    <div className="stopwatch">
+      {/* <div>Time</div>
+      <div>{time}</div> */}
+      <div class="digits">{Math.floor(time/360000)}:{("0"+Math.floor(time/6000)%60).slice(-2)}:{("0"+Math.floor(time/100)%60).slice(-2)}:<span class="millisecond">{("0"+time).slice(-2)}</span></div>
+     <div class="controls">
+     {!isActive ? 
+     <button onClick={start}>Start</button>
+     :
+     <>
+     <button onClick={reset}>Reset</button>
+     <button onClick={pauseResume}>{isPause ? "Resume" : "Pause" }</button>
+     </>
+     }
      </div>
     </div>
   );
