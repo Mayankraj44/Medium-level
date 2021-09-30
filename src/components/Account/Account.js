@@ -1,5 +1,4 @@
-import React from 'react'
-import { useEffect , useState} from 'react/cjs/react.development'
+import React, { useEffect, useState } from 'react'
 
 export const Account = () => {
     const [amount, setAmount] = useState('')
